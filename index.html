@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>互动思维卡片</title>
+    <style>
+        /* 页面基础样式 */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f2f5;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+        }
+
+        /* 容器：设置透视效果，让3D旋转更真实 */
+        .card-container {
+            width: 300px;
+            height: 400px;
+            perspective: 1000px; /* 关键：定义透视深度 */
+            cursor: pointer;
+        }
+
+        /* 卡片主体 */
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d; /* 关键：保留子元素的3D空间 */
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); /* 平滑过渡动画 */
+            border-radius: 16px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* 卡片被翻转时的状态类 */
+        .card.is-flipped {
+            transform: rotateY(180deg);
+        }
+
+        /* 卡片正反面通用样式 */
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden; /* 关键：隐藏背面 */
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+            background: white;
+            border: 1px solid #e1e1e1;
+        }
+
+        /* 正面样式 */
+        .card-front {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        /* 反面样式 */
+        .card-back {
+            background-color: #ffffff;
+            color: #333;
+            transform: rotateY(180deg); /* 初始状态就是旋转过的，这样翻过来才对 */
+            border: 2px solid #667eea;
+        }
+
+        /* 文字样式优化 */
+        h2 {
+            margin: 0 0 10px 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .hint {
+            margin-top: 20px;
+            font-size: 14px;
+            opacity: 0.8;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+
+        .back-hint {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 交互卡片结构 -->
+    <div class="card-container" onclick="toggleCard()">
+        <div class="card" id="myCard">
+            
+            <!-- 正面 -->
+            <div class="card-face card-front">
+                <h2>自律的秘诀</h2>
+                <p>别等完美计划，<br>先动起来！</p>
+                <div class="hint">👆 点击查看详情</div>
+            </div>
+
+            <!-- 反面 -->
+            <div class="card-face card-back">
+                <h2 style="color: #667eea;">核心观点</h2>
+                <p>1. 从刷牙等小事开始<br>2. 设定阶段性奖励<br>3. 允许偶尔松懈，但不要连续放弃</p>
+                <div class="back-hint">👆 点击翻回</div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function toggleCard() {
+            const card = document.getElementById('myCard');
+            // 切换 'is-flipped' 类名，触发 CSS 中的 transform 变化
+            card.classList.toggle('is-flipped');
+        }
+    </script>
+
+</body>
+</html>
